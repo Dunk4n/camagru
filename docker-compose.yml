@@ -1,0 +1,56 @@
+version: '3.3'
+
+services:
+  reverseproxy:
+    build: ./reverseproxy/
+    ports:
+      - 8080:8080
+    restart: always
+
+  nginx:
+    depends_on:
+      - reverseproxy
+    build: ./nginx/
+    ports:
+      - 80:80
+    links:
+      - php
+    volumes:
+      - ./www/html/:/var/www/html/
+    restart: always
+
+  php:
+    build: ./php/
+    container_name: php-container
+    expose:
+      - 9000
+    links:
+      - db
+    volumes:
+      - ./www/html/:/var/www/html/
+    restart: always
+
+  db:
+    image: mysql:5.7
+    container_name: db-container
+    volumes:
+      - /var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-container
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 8081:80
+    restart: always
