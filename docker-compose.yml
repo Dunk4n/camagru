@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   reverseproxy:
-    build: ./reverseproxy/
+    build: ./services/reverseproxy/
     ports:
       - 8080:8080
     restart: always
@@ -10,41 +10,37 @@ services:
   nginx:
     depends_on:
       - reverseproxy
-    build: ./nginx/
-    ports:
-      - 80:80
+    build: ./services/nginx/
     links:
       - php
     volumes:
-      - ./www/html/:/var/www/html/
+      - ./www/html:/var/www/html
+      - /var/www/html/images
     restart: always
 
   php:
-    build: ./php/
-    container_name: php-container
+    build:
+      context: ./services/php/
+      args:
+        EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+        EMAIL_USER: ${EMAIL_USER}
+        EMAIL_PROVIDER: ${EMAIL_PROVIDER}
     expose:
       - 9000
     links:
       - db
     volumes:
       - ./www/html/:/var/www/html/
-    restart: always
-
-  db:
-    image: mysql:5.7
-    container_name: db-container
-    volumes:
-      - /var/lib/mysql
+      - /var/www/html/images
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DATABASE_NAME: db
+      DATABASE_USER: user
+      DATABASE_PASS: ${MYSQL_PASSWORD}
+      FROM_EMAIL: ${EMAIL_USER}@${EMAIL_PROVIDER}
     restart: always
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin-container
     links:
       - db
     environment:
@@ -53,4 +49,16 @@ services:
       PMA_ARBITRARY: 1
     ports:
       - 8081:80
+    restart: always
+
+  db:
+    build: ./services/db/
+    container_name: db
+    volumes:
+      - /var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
