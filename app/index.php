@@ -26,14 +26,12 @@ if (isset($_SESSION['id']))
     <head>
         <meta charset="utf-8">
 
-        <!-- Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="app_style.css">
+        <link rel="stylesheet" href="style.css">
 
         <title>Homepage</title>
     </head>
 
-    <body class="camagru">
+    <body>
         <?php require 'header.php' ?>
         <main>
             <?php if(isset($_SESSION['id'])): ?>
@@ -48,6 +46,7 @@ if (isset($_SESSION['id']))
                 <?php endif; ?>
             <?php endif; ?>
             <div class="main-container">
+                <?php require 'app_side.php' ?>
                 <?php if(!isset($_SESSION['id'])): ?>
                     <div class="main">
                         <p class="text-center">Already a member? <a href="login.php">Sign In</a></p>
@@ -58,7 +57,6 @@ if (isset($_SESSION['id']))
                 <?php else: ?>
                     <?php require 'app_main.php' ?>
                 <?php endif; ?>
-                <?php require 'app_side.php' ?>
             </div>
         </main>
         <?php require 'footer.php' ?>

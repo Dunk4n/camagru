@@ -24,14 +24,12 @@ if(!$_SESSION['verified'])
     <head>
         <meta charset="utf-8">
 
-        <!-- Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="app_style.css">
+        <link rel="stylesheet" href="style.css">
 
         <title>Settings</title>
     </head>
 
-    <body class="camagru">
+    <body>
         <?php require 'header.php' ?>
         <main>
             <?php if(isset($_SESSION['message'])): ?>
@@ -47,7 +45,7 @@ if(!$_SESSION['verified'])
             <form class="setting" action="settings.php" method="post">
                 <div class="setting-field">
                     <label for=username>Username</label>
-                    <input type="text" name="username" value="<?php echo $_SESSION['username']; ?>" class="form-control form-control-lg">
+                    <input type="text" name="username" value="<?php echo $_SESSION['username']; ?>" class="form-control form-control-lg" maxlength="20">
                 </div>
 
                 <div class="setting-field">
@@ -61,7 +59,7 @@ if(!$_SESSION['verified'])
                 </div>
 
                 <div class="setting-field">
-                    <button type="submit" name="submit-setting" class="btn btn-primary btn-lg">submit</button>
+                    <button type="submit" name="submit-setting" class="btn">submit</button>
                 </div>
             </form>
             <form class="setting" action="settings.php" method="post">
@@ -78,7 +76,7 @@ if(!$_SESSION['verified'])
                 </div>
 
                 <div class="setting-field">
-                    <button type="submit" name="submit-setting-password" class="btn btn-primary btn-lg">submit</button>
+                    <button type="submit" name="submit-setting-password" class="btn">submit</button>
                 </div>
             </form>
         </main>

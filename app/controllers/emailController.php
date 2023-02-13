@@ -28,16 +28,10 @@ function sendVerificationEmail($userEmail, $token)
                'Content-type: text/html;' . "\r\n";
 
     $success = mail($to, $subject, $message, $headers);
-    if (!$success)
-    {
-        //TODO
-        error_log("ERROR [mail failed] FIN ERR", 0);
-    }
 }
 
 function sendPasswordResetLink($userEmail, $username, $token)
 {
-    //TODO maybe set it as constant in php from .env
     $FROM_EMAIL = $_ENV["FROM_EMAIL"];
 
     $to      = $userEmail;
@@ -51,7 +45,7 @@ function sendPasswordResetLink($userEmail, $username, $token)
 <body>
     <div class="wrapper">
         <p>
-            hello ' . $username . ',
+            hello ' . htmlspecialchars($username) . ',
 
             Please click on the link below to reset your password.
         </p>
@@ -65,11 +59,44 @@ function sendPasswordResetLink($userEmail, $username, $token)
                'Content-type: text/html;' . "\r\n";
 
     $success = mail($to, $subject, $message, $headers);
+}
+
+function sendEmailToImageCreator($image, $username)
+{
+    $user = getUserFromId($image['userId']);
+    if(!$user)
+        return (false);
+    if(!$user['emailForMessage'])
+        return (true);
+    if(!$user['verified'])
+        return (true);
+
+    $FROM_EMAIL = $_ENV["FROM_EMAIL"];
+
+    $to      = $user['email'];
+    $subject = 'You got new comment';
+    $message = '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>You got new comment</title>
+</head>
+<body>
+    <div class="wrapper">
+        <p>
+        You got new comment on this <a href="http://localhost:8080/picture.php?id=' . $image['id'] . '">picture</a>
+        from ' . htmlspecialchars($username) . '
+        </p>
+    </div>
+</body>
+</html>';
+    $headers = 'From: ' . $FROM_EMAIL . "\r\n" .
+               'Content-type: text/html;' . "\r\n";
+
+    $success = mail($to, $subject, $message, $headers);
     if (!$success)
-    {
-        //TODO
-        error_log("ERROR [mail failed] FIN ERR", 0);
-    }
+        return (false);
+    return (true);
 }
 
 ?>

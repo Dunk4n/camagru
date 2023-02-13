@@ -1,5 +1,15 @@
 version: '3.3'
 
+# You must have a file .env at the root of the project with this value:
+# MYSQL_PASSWORD=
+# MYSQL_ROOT_PASSWORD=
+# EMAIL_PASSWORD=
+# EMAIL_USER=
+# EMAIL_PROVIDER=
+
+volumes:
+  images:
+
 services:
   reverseproxy:
     build: ./services/reverseproxy/
@@ -14,8 +24,8 @@ services:
     links:
       - php
     volumes:
-      - ./www/html:/var/www/html
-      - /var/www/html/images
+      - ./app/:/var/www/html/
+      - images:/srv/images/
     restart: always
 
   php:
@@ -30,8 +40,8 @@ services:
     links:
       - db
     volumes:
-      - ./www/html/:/var/www/html/
-      - /var/www/html/images
+      - ./app/:/var/www/html/
+      - images:/srv/images/
     environment:
       DATABASE_NAME: db
       DATABASE_USER: user

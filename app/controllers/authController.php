@@ -22,6 +22,10 @@ if (isset($_POST['signup-btn']))
     {
         $errors['username'] = "Username required";
     }
+    if (strlen($username) > 20 || strlen($username) == 0)
+    {
+        $errors['username'] = "Username wrong size";
+    }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
     {
         $errors['email'] = "Email address is invalid";
@@ -42,34 +46,33 @@ if (isset($_POST['signup-btn']))
     {
         $errors['password'] = "Password too long";
     }
-    //TODO
-    //if (strlen($password) < 8)
-    //{
-    //    $errors['password'] = "Password too small";
-    //}
-    //if (count($errors) == 0)
-    //{
-    //    $password_number_present = false;
-    //    $password_upper_present = false;
-    //    $password_special_present = false;
-    //    $cnt = 0;
-    //    while ($cnt < strlen($password))
-    //    {
-    //        if ($password[$cnt] >= '0' && $password[$cnt] <= '9')
-    //            $password_number_present = true;
-    //        if ($password[$cnt] >= 'A' && $password[$cnt] <= 'Z')
-    //            $password_upper_present = true;
-    //        if (($password[$cnt] < 'a' || $password[$cnt] > 'z') && ($password[$cnt] < 'A' || $password[$cnt] > 'Z') && ($password[$cnt] < '0' || $password[$cnt] > '9'))
-    //            $password_special_present = true;
+    if (strlen($password) < 8)
+    {
+        $errors['password'] = "Password too small";
+    }
+    if (count($errors) == 0)
+    {
+        $password_number_present = false;
+        $password_upper_present = false;
+        $password_special_present = false;
+        $cnt = 0;
+        while ($cnt < strlen($password))
+        {
+            if ($password[$cnt] >= '0' && $password[$cnt] <= '9')
+                $password_number_present = true;
+            if ($password[$cnt] >= 'A' && $password[$cnt] <= 'Z')
+                $password_upper_present = true;
+            if (($password[$cnt] < 'a' || $password[$cnt] > 'z') && ($password[$cnt] < 'A' || $password[$cnt] > 'Z') && ($password[$cnt] < '0' || $password[$cnt] > '9'))
+                $password_special_present = true;
 
-    //        $cnt = $cnt + 1;
-    //    }
+            $cnt = $cnt + 1;
+        }
 
-    //    if ($password_number_present != true || $password_upper_present != true || $password_special_present != true)
-    //    {
-    //        $errors['password'] = "Password must have at least 8 charcters and at least 1 upper case, numeric, and special character";
-    //    }
-    //}
+        if ($password_number_present != true || $password_upper_present != true || $password_special_present != true)
+        {
+            $errors['password'] = "Password must have at least 8 charcters and at least 1 upper case, numeric, and special character";
+        }
+    }
 
 
     $emailQuery = "SELECT * FROM users WHERE email=? OR username=? LIMIT 1";
@@ -82,11 +85,10 @@ if (isset($_POST['signup-btn']))
         $userCount = $result->num_rows;
         $stmt->close();
 
-        //TODO
-        //if ($userCount > 0)
-        //{
-        //    $errors['email'] = "Email or username already exists";
-        //}
+        if ($userCount > 0)
+        {
+            $errors['email'] = "Email or username already exists";
+        }
 
         if (count($errors) == 0)
         {
@@ -137,6 +139,10 @@ if (isset($_POST['login-btn']))
     if (empty($username))
     {
         $errors['username'] = "Username required";
+    }
+    if (strlen($username) > 20 || strlen($username) == 0)
+    {
+        $errors['username'] = "Username wrong size";
     }
     if (empty($password))
     {
@@ -397,6 +403,12 @@ if (isset($_POST['submit-setting']))
         $_SESSION['alert-class'] = "alert-danger";
         $error = true;
     }
+    if (strlen($username) > 20 || strlen($username) == 0)
+    {
+        $_SESSION['message'] = "Username wrong size";
+        $_SESSION['alert-class'] = "alert-danger";
+        $error = true;
+    }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
     {
         $_SESSION['message'] = "Email address is invalid";
@@ -429,6 +441,9 @@ if (isset($_POST['submit-setting']))
 
             if ($stmt->execute())
             {
+                if($_SESSION['email'] != $email)
+                    sendVerificationEmail($email, $token);
+
                 $_SESSION['username'] = $username;
                 $_SESSION['email'] = $email;
                 $_SESSION['emailForMessage'] = $receveEmailForComment;
@@ -437,11 +452,8 @@ if (isset($_POST['submit-setting']))
                     $_SESSION['verified'] = 0;
                 }
 
-                // set flash message
                 $_SESSION['message'] = "User value was successfully modified";
                 $_SESSION['alert-class'] = "alert-success";
-
-                sendVerificationEmail($email, $token);
             }
             else
             {
@@ -481,34 +493,33 @@ function updatePassword($id, $password, $passwordConf, $errors)
         $errors['password'] = "Password too long";
         return (false);
     }
-    //TODO
-    //if (strlen($password) < 8)
-    //{
-    //    $errors['password'] = "Password too small";
-    //}
-    //if (count($errors) == 0)
-    //{
-    //    $password_number_present = false;
-    //    $password_upper_present = false;
-    //    $password_special_present = false;
-    //    $cnt = 0;
-    //    while ($cnt < strlen($password))
-    //    {
-    //        if ($password[$cnt] >= '0' && $password[$cnt] <= '9')
-    //            $password_number_present = true;
-    //        if ($password[$cnt] >= 'A' && $password[$cnt] <= 'Z')
-    //            $password_upper_present = true;
-    //        if (($password[$cnt] < 'a' || $password[$cnt] > 'z') && ($password[$cnt] < 'A' || $password[$cnt] > 'Z') && ($password[$cnt] < '0' || $password[$cnt] > '9'))
-    //            $password_special_present = true;
+    if (strlen($password) < 8)
+    {
+        $errors['password'] = "Password too small";
+    }
+    if (count($errors) == 0)
+    {
+        $password_number_present = false;
+        $password_upper_present = false;
+        $password_special_present = false;
+        $cnt = 0;
+        while ($cnt < strlen($password))
+        {
+            if ($password[$cnt] >= '0' && $password[$cnt] <= '9')
+                $password_number_present = true;
+            if ($password[$cnt] >= 'A' && $password[$cnt] <= 'Z')
+                $password_upper_present = true;
+            if (($password[$cnt] < 'a' || $password[$cnt] > 'z') && ($password[$cnt] < 'A' || $password[$cnt] > 'Z') && ($password[$cnt] < '0' || $password[$cnt] > '9'))
+                $password_special_present = true;
 
-    //        $cnt = $cnt + 1;
-    //    }
+            $cnt = $cnt + 1;
+        }
 
-    //    if ($password_number_present != true || $password_upper_present != true || $password_special_present != true)
-    //    {
-    //        $errors['password'] = "Password must have at least 8 charcters and at least 1 upper case, numeric, and special character";
-    //    }
-    //}
+        if ($password_number_present != true || $password_upper_present != true || $password_special_present != true)
+        {
+            $errors['password'] = "Password must have at least 8 charcters and at least 1 upper case, numeric, and special character";
+        }
+    }
 
     $password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -579,7 +590,7 @@ function getLikesNumberFromImageId($id)
 {
     global $conn;
 
-    $sql = "SELECT * FROM likes WHERE imageId=? LIMIT 1";
+    $sql = "SELECT * FROM likes WHERE imageId=?";
     $stmt = $conn->prepare($sql);
     if($stmt == false)
         return (false);
@@ -598,7 +609,7 @@ function getcommentsFromImageId($id)
 {
     global $conn;
 
-    $sql = "SELECT * FROM comments WHERE imageId=? LIMIT 1";
+    $sql = "SELECT * FROM comments WHERE imageId=?";
     $stmt = $conn->prepare($sql);
     if($stmt == false)
         return (false);
@@ -609,11 +620,65 @@ function getcommentsFromImageId($id)
     }
 
     $result = $stmt->get_result();
-    $userCount = $result->num_rows;
-    if($userCount == 0)
+    $count = $result->num_rows;
+    if($count == 0)
         return (false);
 
-    $user = $result->fetch_assoc();
-    return ($user);
+    $comments = Array();
+    $cnt = 0;
+    while ($comment = $result->fetch_assoc())
+    {
+        $comments[$cnt] = $comment;
+        $cnt++;
+    }
+    return ($comments);
 }
+
+function getCommentFromId($id)
+{
+    global $conn;
+
+    $sql = "SELECT * FROM comments WHERE id=? LIMIT 1";
+    $stmt = $conn->prepare($sql);
+    if($stmt == false)
+        return (false);
+    $stmt->bind_param('d', $id);
+    if (!$stmt->execute())
+        return (false);
+
+    $result = $stmt->get_result();
+    $count = $result->num_rows;
+    if($count == 0)
+        return (false);
+
+    $comment = $result->fetch_assoc();
+    return ($comment);
+}
+
+function deleteCommentsFromId($id, $userId)
+{
+    if($id < 1)
+        return (false);
+
+    global $conn;
+
+    $comment = getCommentFromId($id);
+    if(!$comment)
+        return (false);
+    if($comment['userId'] != $userId)
+        return (false);
+
+    $sql = "DELETE FROM comments WHERE id=?";
+    $stmt = $conn->prepare($sql);
+    if($stmt == false)
+        return (false);
+    $stmt->bind_param('d', $id);
+    if (!$stmt->execute())
+    {
+        return (false);
+    }
+    return (true);
+}
+
+require_once "controllers/process_image.php"
 ?>

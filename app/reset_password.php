@@ -3,15 +3,13 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <!-- Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <link rel="stylesheet" href="style.css">
 
         <title>Reset password</title>
     </head>
 
-    <body style="background-color: grey;">
+    <body>
         <div class="container">
             <div class="row">
                 <div class="col-md-4 offset-md-4 form-div login">
@@ -37,7 +35,7 @@
                         </div>
 
                         <div class="form-group d-grid">
-                            <button type="submit" name="reset-password-btn" class="btn btn-primary btn-lg">Reset password</button>
+                            <button type="submit" name="reset-password-btn" class="btn">Reset password</button>
                         </div>
                     </form>
                 </div>

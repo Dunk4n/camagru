@@ -11,15 +11,13 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <!-- Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <link rel="stylesheet" href="style.css">
 
         <title>Forgot password</title>
     </head>
 
-    <body style="background-color: grey;">
+    <body>
         <div class="container">
             <div class="row">
                 <div class="col-md-4 offset-md-4 form-div login">
@@ -43,7 +41,7 @@
                         </div>
 
                         <div class="form-group d-grid">
-                            <button type="submit" name="forgot-password" class="btn btn-primary btn-lg">
+                            <button type="submit" name="forgot-password" class="btn">
                                 Recover your password
                             </button>
                         </div>

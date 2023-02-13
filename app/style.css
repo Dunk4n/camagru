@@ -1,0 +1,242 @@
+.form-div
+{
+    padding: 25px 15px 10px 15px;
+    border: 1px solid #80ced7;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-family: serif;
+    width 80%;
+}
+
+form p
+{
+    font-size: .89em;
+}
+
+.logout
+{
+    color: red;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    height: 8%;
+    min-height: 30px;
+    background: #5F9EA0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+main {
+    flex: auto;
+    background-color: #ccc;
+    overflow: auto;
+}
+
+footer {
+    height: 5%;
+    background: #5F9EA0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+div.main-container {
+    background: #EEE;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+}
+
+div.main {
+  background: #F0F8FF;
+  order: 1;
+  float: left;
+  height: 100%;
+  width: 85%;
+}
+
+div.side {
+  order: 2;
+  background: #DCDCDC;
+  width: 15%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: none;
+}
+
+div.alert-over {
+    z-index: 10;
+    position: absolute;
+    width: 60%;
+    text-align: center;
+    left: 20%;
+    top: 10%;
+}
+
+form.setting {
+    display: flex;
+    width: 100%;
+    height: 50%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+div.setting-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#player {
+    width : 100%;
+    height : 80%;
+    display : none;
+}
+#pick-image{
+    display : none;
+    flex-direction: column;
+}
+
+img.image-side {
+    width: 100%;
+    height: 100%;
+}
+
+div.preview-image {
+    width: 100%;
+    height: 80%;
+    background-color: #FFFFF0;
+    overflow: auto;
+}
+
+div.selection-images {
+    width: 100%;
+    height: 20%;
+    background-color: gray;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: none;
+}
+
+button.selection-image-button {
+    height: 100%;
+    width: 100%;
+}
+
+img.selection-image {
+    max-height: 100%;
+    width: 100%;
+}
+
+.btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 5px 5px;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  border: 2px solid #4CAF50;
+}
+
+.btn:hover {
+  background-color: white;
+  color: black;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-danger {
+    background-color: red; /* Green */
+    color: white;
+    border: 2px solid red;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+}
+
+input.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+input[type=file].input-file {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.comment-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.picture-action {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.picture-global-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+img.picture {
+    width: fit-content;
+    height: fit-content;
+    max-width: 100%;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid purple;
+}
+
+table tr th:nth-child(1){
+    width: 10%;
+}
+
+table tr th:nth-child(2){
+    width: 70%;
+}
+
+th, td {
+    text-align: center;
+    word-wrap: break-word;
+    border: 1px solid purple;
+}
+

@@ -14,6 +14,9 @@ RUN chown www-data:www-data /etc/msmtprc &&  touch /var/log/msmtp.log && chown w
 RUN echo 'sendmail_path = "/usr/bin/msmtp -C /etc/msmtprc --logfile /var/log/msmtp.log -a gmail -t"' >> /usr/local/etc/php/php.ini
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+RUN apt-get update -y && apt-get install -y libjpeg-dev libgif-dev libpng-dev zlib1g-dev
+RUN docker-php-ext-configure gd --with-jpeg
+RUN docker-php-ext-install gd
 
 RUN apt-get install -y bash
 
@@ -22,7 +25,7 @@ RUN echo "localhost localhost.localdomain" >> /etc/hosts
 RUN sed -i '/#!\/bin\/sh/aservice msmtp restart' /usr/local/bin/docker-php-entrypoint
 RUN sed -i '/#!\/bin\/sh/aecho "$(hostname -i)\t$(hostname) $(hostname).localhost" >> /etc/hosts' /usr/local/bin/docker-php-entrypoint
 
-RUN chmod 777 /tmp
-RUN chmod 777 /var/www/html/images
+RUN mkdir -p /srv/images/
+RUN chmod 777 /tmp /srv/images/
 
 RUN rm -rf /var/lib/apt/lists/*
