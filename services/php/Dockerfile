@@ -20,8 +20,6 @@ RUN docker-php-ext-install gd
 
 RUN apt-get install -y bash
 
-RUN echo "localhost localhost.localdomain" >> /etc/hosts
-
 RUN sed -i '/#!\/bin\/sh/aservice msmtp restart' /usr/local/bin/docker-php-entrypoint
 RUN sed -i '/#!\/bin\/sh/aecho "$(hostname -i)\t$(hostname) $(hostname).localhost" >> /etc/hosts' /usr/local/bin/docker-php-entrypoint
 

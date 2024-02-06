@@ -29,6 +29,8 @@ services:
     restart: always
 
   php:
+    extra_hosts:
+      - "localhost.localdomain:127.0.0.1"
     build:
       context: ./services/php/
       args:
